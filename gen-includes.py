@@ -1,12 +1,13 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import sys
 import subprocess
 
 out = subprocess.run(
-    ['pkg-config.exe', '--cflags-only-I', sys.argv[1]],
-    capture_output=True)
+        ['pkg-config', '--cflags-only-I', *sys.argv[1:]],
+         capture_output=True)
 
 if out.returncode != 0:
+    print('{}'.format(out.stderr.decode('utf-8')), file=sys.stderr)
     exit(1)
 
 for item in out.stdout.split():
